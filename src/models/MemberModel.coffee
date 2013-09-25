@@ -1,0 +1,1 @@
+class @MemberModel extends Backbone.Model

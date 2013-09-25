@@ -1,0 +1,47 @@
+.message
+
+%form
+  %section.repo-select
+    %select{name: 'repository'}   
+      - for repository in @repositories.models
+        - full_name = repository.get('full_name')
+        - if localStorage['new_issue_last_repo'] == repository.get('full_name')
+          %option{value: full_name, selected: 'selected'}= repository.get('full_name')
+        - else
+          %option{value: full_name}= repository.get('full_name')
+
+  %section
+    %label{for: "title"} Title:
+    %input{name: "title", type: "text", value: ""}
+
+  %section.member-select#mem-select
+    %label{for: "dev"} Assignee
+    %select{name: 'developer',selectedIndex: '-1'}
+      - for member in @members.models
+        - n= member.get('url')
+        - n1= n.substr(29)
+        - if localStorage['new_issue_last_member'] == n1
+          %option{value: n1}= n1
+        - else
+          %option{value: n1}= n1
+      
+
+
+
+	
+  %section
+    %label{for: "releases"} Milestone
+    %select{name: 'forMilestones'}
+      - for mile in @milestones.models
+        - num = mile.get('title')
+        - if localStorage['new_issue_last_milestone'] == mile.get('title')
+          %option{value: num, selected: 'selected'}= mile.get('title')
+        - else
+          %option{value: num}= mile.get('title')
+
+  %section
+    %label{for: "body"} Comment:
+    %textarea{name: "body", value: ""}
+
+  %section
+    %input.submit{type: "submit", value: "Create Issue"}
